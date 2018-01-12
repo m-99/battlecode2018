@@ -1,4 +1,7 @@
 working_dir
 
+
 .idea/
+
 *.iml
+*.bc18
