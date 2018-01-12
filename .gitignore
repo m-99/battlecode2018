@@ -4,4 +4,4 @@ working_dir
 .idea/
 
 *.iml
-*.bc18
+replay.bc18
