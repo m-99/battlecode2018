@@ -13,7 +13,6 @@ public class Player {
                     for (Direction direction : Direction.values()) {
                          if (gc.canReplicate(unit.id(), direction) && gc.karbonite() >= 15) {
                              gc.replicate(unit.id(), direction);
-                             //Note: gc.canReplicate() serves same function
                          }
                     }
                 }
