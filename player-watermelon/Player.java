@@ -5,18 +5,6 @@ import java.util.Random;
 
 public class Player {
     public static void main(String[] args) {
-        // You can use other files in this directory, and in subdirectories.
-        Extra extra = new Extra(27);
-        System.out.println(extra.toString());
-
-        // MapLocation is a data structure you'll use a lot.
-        MapLocation loc = new MapLocation(Planet.Earth, 10, 20);
-        System.out.println("loc: "+loc+", one step to the Northwest: "+loc.add(Direction.Northwest));
-        System.out.println("loc x: "+loc.getX());
-
-        // One slightly weird thing: some methods are currently static methods on a static class called bc.
-        // This will eventually be fixed :/
-        System.out.println("Opposite of " + Direction.North + ": " + bc.bcDirectionOpposite(Direction.North));
 
         // Connect to the manager, starting the game
         GameController gc = new GameController();
@@ -32,38 +20,27 @@ public class Player {
                 Unit unit = units.get(i);
 
                 // Most methods on gc take unit IDs, instead of the unit objects themselves.
+                Random r = new Random();
+                Direction randDir = directions[r.nextInt(8)];
 
-                Direction randDir = randomDirection();
 
-                if (gc.isMoveReady(unit.id()) && gc.canMove(unit.id(), randDir)) {
+                /*if (gc.isMoveReady(unit.id()) && gc.canMove(unit.id(), randDir)) {
                     gc.moveRobot(unit.id(), randDir);
+                }*/
+
+                VecUnit baddies = gc.senseNearbyUnitsByTeam(unit.location().mapLocation(), 50, Team.Red);
+                if(baddies.size() > 0 && gc.isMoveReady(unit.id()) && gc.canMove(unit.id(), Direction.East)){
+                    gc.moveRobot(unit.id(), Direction.East);
+                }else if(gc.isMoveReady(unit.id()) && gc.canMove(unit.id(), Direction.West)){
+                    gc.moveRobot(unit.id(), Direction.West);
+                }
+
+                if(gc.canReplicate(unit.id(), randDir)){
+                    gc.replicate(unit.id(), randDir);
                 }
             }
             // Submit the actions we've done, and wait for our next turn.
             gc.nextTurn();
         }
-    }
-
-    static Direction randomDirection() {
-        Random r = new Random();
-        switch(r.nextInt(8)){
-            case 0:
-                return Direction.North;
-            case 1:
-                return Direction.Northeast;
-            case 2:
-                return Direction.East;
-            case 3:
-                return Direction.Southeast;
-            case 4:
-                return Direction.South;
-            case 5:
-                return Direction.Southwest;
-            case 6:
-                return Direction.West;
-            case 7:
-                return Direction.Northwest;
-        }
-        return Direction.North;
     }
 }
