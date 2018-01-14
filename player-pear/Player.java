@@ -5,14 +5,15 @@ public class Player {
         GameController gc = new GameController();
 
         while (true) {
-            VecUnit units = gc.units();
+            VecUnit units = gc.myUnits();
 
             for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
                 if (unit.unitType().equals(UnitType.Worker)) {
                     for (Direction direction : Direction.values()) {
-                         if (gc.canMove(unit.id(), direction) && gc.karbonite() >= 15) {
+                         if (gc.canReplicate(unit.id(), direction) && gc.karbonite() >= 15) {
                              gc.replicate(unit.id(), direction);
+                             //Note: gc.canReplicate() serves same function
                          }
                     }
                 }
