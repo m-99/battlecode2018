@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class Robot {
-    public void randomMove(GameController gc, int id) {
+    public static void randomMove(GameController gc, int id) {
         List<Direction> directions = Arrays.asList(Direction.values());
         while (!directions.isEmpty()) {
             Direction randomDirection = directions.remove((int)(Math.random()*directions.size()));
@@ -19,7 +19,7 @@ public abstract class Robot {
         }
     }
 
-    public void directedMove(GameController gc, int id, Direction direction) {
+    public static void directedMove(GameController gc, int id, Direction direction) {
         try {
             gc.moveRobot(id, direction);
         } catch (Exception e) {
