@@ -1,4 +1,4 @@
-// import the API.
+						// import the API.
 // See xxx for the javadocs.
 import bc.*;
 
@@ -37,7 +37,7 @@ public class Player {
                 			}
                 		}
                 		else {
-                			if(gc.canBlueprint(unit.id(), bc.UnitType.Factory, direction) {
+                			if(gc.canBlueprint(unit.id(), bc.UnitType.Factory, direction)) {
                 				gc.blueprint(unit.id(), bc.UnitType.Factory, direction);
                 				break;
                 			}
