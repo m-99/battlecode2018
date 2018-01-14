@@ -26,4 +26,6 @@ public abstract class Robot {
             System.out.println("Robot Exception: directedMove");
         }
     }
+
+    public abstract void ability(GameController gc);
 }
