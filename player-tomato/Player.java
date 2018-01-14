@@ -1,5 +1,3 @@
-						// import the API.
-// See xxx for the javadocs.
 import bc.*;
 
 public class Player {
@@ -28,7 +26,7 @@ public class Player {
                 Unit unit = units.get(i);
                 
                 //worker logic
-                if(unit.unitType() == bc.UnitType.Worker) {
+                if(unit.unitType().equals(UnitType.Worker)) {
                 	for(Direction direction : directions) {
                 		if(units.size() <= 10) {
                 			if(gc.canReplicate(unit.id(), direction) && gc.karbonite() >= 15) {
@@ -37,8 +35,8 @@ public class Player {
                 			}
                 		}
                 		else {
-                			if(gc.canBlueprint(unit.id(), bc.UnitType.Factory, direction)) {
-                				gc.blueprint(unit.id(), bc.UnitType.Factory, direction);
+                			if(gc.canBlueprint(unit.id(), UnitType.Factory, direction)) {
+                				gc.blueprint(unit.id(), UnitType.Factory, direction);
                 				break;
                 			}
                 		}
