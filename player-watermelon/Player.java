@@ -38,6 +38,7 @@ public class Player {
                 if(gc.canReplicate(unit.id(), randDir)){
                     gc.replicate(unit.id(), randDir);
                 }
+
             }
             // Submit the actions we've done, and wait for our next turn.
             gc.nextTurn();
