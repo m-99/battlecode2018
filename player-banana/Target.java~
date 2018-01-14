@@ -7,7 +7,7 @@ public class Target {
 
         public Target(Tasks t, MapLocation l) {
                 tasks = t;
-                location = l;                                                            
+                location = l                                                              
         }
 
         
