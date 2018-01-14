@@ -10,5 +10,17 @@ public class Target {
                 location = l;                                                            
         }
 
-        
+        public Tasks getTask() {
+                return t;
+        }
+        public MapLocation getMapLocation() {
+                return l;
+        }
+        public void setTask(Task ta) {
+                tasks = ta;
+        }
+        public void setMapLocation(MapLocation lo) {
+                location = lo;
+        }
+
 }

@@ -1,5 +1,5 @@
 import bc.*;
 
-public class Worker {
-
+public class Worker extends Robot {
+        
 }
