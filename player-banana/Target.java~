@@ -9,5 +9,18 @@ public class Target {
                 tasks = t;
                 location = l;                                                            
         }
- 
+
+        public Tasks getTask() {
+                return t;
+        }
+        public MapLocation getMapLocation() {
+                return l;
+        }
+        public void setTask(Tasks ta) {
+                tasks = ta;
+        }
+        public void setMapLocation(MapLocation lo) {
+                location = lo;
+        }
+
 }

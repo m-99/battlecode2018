@@ -16,7 +16,7 @@ public class Target {
         public MapLocation getMapLocation() {
                 return l;
         }
-        public void setTask(Task ta) {
+        public void setTask(Tasks ta) {
                 tasks = ta;
         }
         public void setMapLocation(MapLocation lo) {
