@@ -11,10 +11,10 @@ public class Target {
         }
 
         public Tasks getTask() {
-                return t;
+                return tasks;
         }
         public MapLocation getMapLocation() {
-                return l;
+                return location;
         }
         public void setTask(Tasks ta) {
                 tasks = ta;
