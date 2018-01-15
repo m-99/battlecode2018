@@ -3,7 +3,7 @@ import bc.*;
 import java.util.Arrays;
 import java.util.List;
 
-public static class Robot {
+public class Robot {
 
     public static void randomMove(GameController gc, int id) {
         List<Direction> directions = Arrays.asList(Direction.values());
