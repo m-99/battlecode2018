@@ -1,6 +1,6 @@
 import bc.*;
 
-public static class Worker extends Robot {
+public class Worker extends Robot {
     public static void ability(GameController gc, int id, Direction direction) {
     	//replication
      	if(gc.canReplicate(id, direction) && gc.karbonite() > 15) {
