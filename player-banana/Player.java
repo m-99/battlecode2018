@@ -17,11 +17,21 @@ public class Player {
 
         ArrayList<Target> queue = new ArrayList<Target>();
         HashMap<Integer, Target> jobMap = new HashMap<Integer, Target>();
+        ArrayList<Object> unitList = new ArrayList<Object>();
+
+        //define units, add units to unitList, and add initial units to jobMap
+        VecUnit units = gc.myUnits();
+        for (int i = 0; i < units.size(); i++) {
+            Unit unit = units.get(i);
+            jobMap.put(unit.id(), new Target(Tasks.NONE, unit.location().mapLocation(), unit.unitType()));
+            unitList.add(new Worker(unit.id(), unit.location().mapLocation(), unit.health()));
+        }
+
 
         while (true) {
             System.out.println("Current round: "+gc.round());
 
-            VecUnit units = gc.myUnits();
+            units = gc.myUnits();
             //note: don't need to mark dead units; simply ignoring them in job hashmap for now
 
             //phase logic
@@ -32,8 +42,7 @@ public class Player {
 
             if(phase == 1 && !phase1Queued ){
                 for(int x = 0; x < 10; x++){
-                    //add unit type to target
-                    queue.add(new Target(Tasks.MOVE, new MapLocation(Planet.Earth, 0, 0)));
+                    queue.add(new Target(Tasks.MOVE, new MapLocation(Planet.Earth, 0, 0), UnitType.Worker));
                 }
             }else if(phase == 2 && !phase2Queued){
 
@@ -45,8 +54,7 @@ public class Player {
             if(queue.size() > 0){
                 for (int i = 0; i < units.size(); i++) {
                     Unit unit = units.get(i);
-                    //add unit type to target
-                    if (jobMap.get(unit.id()).getTask() == Tasks.NONE && unit.unitType() == UnitType.Worker) {
+                    if (jobMap.get(unit.id()).getTask() == Tasks.NONE && unit.unitType() == queue.get(0).getUnitType()) {
                         jobMap.put(unit.id(), queue.get(0));
                         queue.remove(0);
                     }
@@ -60,9 +68,12 @@ public class Player {
                 if(unit.location().isOnPlanet(Planet.Earth)){
                     switch(unit.unitType()){
                         case Worker:
-                            //a lot of this code will be elsewhere later
-
-                            Random r = new Random();
+                            //TODO
+                            //make work with objects
+                            //make replication stuff work, by adding to unitList
+                            //not using vecUnit?
+                            
+                            /*Random r = new Random();
                             Direction randDir;
                             ArrayList<Direction> validDir = new ArrayList<Direction>();
                             for(Direction direction : directions){
@@ -80,7 +91,7 @@ public class Player {
                                     gc.moveRobot(unit.id(), randDir);
                                 }
 
-                            }
+                            }*/
 
 
                             break;
