@@ -52,7 +52,7 @@ public class Robot {
     	id = unit_id;
     }
     public void setMapLocation(MapLocation loc) {
-    	location = loc
+    	location = loc;
     }
     public void setHealth(long h) {
     	health = h;
