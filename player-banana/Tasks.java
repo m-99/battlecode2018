@@ -10,5 +10,7 @@ public enum Tasks {
     //mage things
     BLINK,
     //healer things
-    HEAL, OVERCHARGE
+    HEAL, OVERCHARGE,
+    //no job assigned
+    NONE
 }
