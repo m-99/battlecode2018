@@ -3,8 +3,7 @@ import bc.*;
 import java.util.Arrays;
 import java.util.List;
 
-public static class Robot {
-
+public abstract class Robot {
     public static void randomMove(GameController gc, int id) {
         List<Direction> directions = Arrays.asList(Direction.values());
         while (!directions.isEmpty()) {
@@ -27,4 +26,6 @@ public static class Robot {
             System.out.println("Robot Exception: directedMove");
         }
     }
+
+    public abstract void ability(GameController gc);
 }
