@@ -15,7 +15,7 @@ public class Robot {
 		health = h;
 	}
 	
-    public void randomMove(GameController gc, int id) {
+    public void randomMove(GameController gc) {
         List<Direction> directions = Arrays.asList(Direction.values());
         while (!directions.isEmpty()) {
             Direction randomDirection = directions.remove((int)(Math.random()*directions.size()));
@@ -30,7 +30,7 @@ public class Robot {
         }
     }
 
-    public static void directedMove(GameController gc, int id, Direction direction) {
+    public void directedMove(GameController gc, Direction direction) {
         try {
             gc.moveRobot(id, direction);
         } catch (Exception e) {

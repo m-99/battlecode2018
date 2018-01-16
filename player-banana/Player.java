@@ -72,7 +72,7 @@ public class Player {
                             //make work with objects
                             //make replication stuff work, by adding to unitList
                             //not using vecUnit?
-                            
+
                             /*Random r = new Random();
                             Direction randDir;
                             ArrayList<Direction> validDir = new ArrayList<Direction>();
@@ -90,7 +90,6 @@ public class Player {
                                 if(gc.canMove(unit.id(), randDir) && gc.isMoveReady(unit.id())){
                                     gc.moveRobot(unit.id(), randDir);
                                 }
-
                             }*/
 
 
