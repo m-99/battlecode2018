@@ -8,6 +8,7 @@ public class Robot {
 	private int id; 
 	private MapLocation location;
 	private long health;
+
 	
 	public Robot(int unit_id, MapLocation loc, long h) {
 		id = unit_id;
@@ -36,6 +37,9 @@ public class Robot {
         } catch (Exception e) {
             System.out.println("Robot Exception: directedMove");
         }
+    }
+
+    public void doTask(Target target){
     }
     
     public int getUnitId() {

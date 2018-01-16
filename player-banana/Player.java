@@ -17,14 +17,15 @@ public class Player {
 
         ArrayList<Target> queue = new ArrayList<Target>();
         HashMap<Integer, Target> jobMap = new HashMap<Integer, Target>();
-        ArrayList<Object> unitList = new ArrayList<Object>();
+        HashMap<Integer, Object> unitMap = new HashMap<Integer, Object>();
+        //ArrayList<Object> unitList = new ArrayList<Object>();
 
         //define units, add units to unitList, and add initial units to jobMap
         VecUnit units = gc.myUnits();
         for (int i = 0; i < units.size(); i++) {
             Unit unit = units.get(i);
             jobMap.put(unit.id(), new Target(Tasks.NONE, unit.location().mapLocation(), unit.unitType()));
-            unitList.add(new Worker(unit.id(), unit.location().mapLocation(), unit.health()));
+            unitMap.put(unit.id(), new Worker(unit.id(), unit.location().mapLocation(), unit.health()));
         }
 
 
@@ -60,6 +61,17 @@ public class Player {
                     }
                 }
             }
+
+            //unit incrementation loop
+            for (int i = 0; i < units.size(); i++) {
+                Unit unit = units.get(i);
+
+
+
+            }
+
+
+
 
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
