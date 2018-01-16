@@ -17,7 +17,7 @@ public class Player {
 
         ArrayList<Target> queue = new ArrayList<Target>();
         HashMap<Integer, Target> jobMap = new HashMap<Integer, Target>();
-        HashMap<Integer, Object> unitMap = new HashMap<Integer, Object>();
+        HashMap<Integer, Machine> unitMap = new HashMap<Integer, Machine>();
         //ArrayList<Object> unitList = new ArrayList<Object>();
 
         //define units, add units to unitList, and add initial units to jobMap
@@ -25,7 +25,7 @@ public class Player {
         for (int i = 0; i < units.size(); i++) {
             Unit unit = units.get(i);
             jobMap.put(unit.id(), new Target(Tasks.NONE, unit.location().mapLocation(), unit.unitType()));
-            unitMap.put(unit.id(), new Worker(unit.id(), unit.location().mapLocation(), unit.health()));
+            unitMap.put(unit.id(), new Worker(gc, unit.id(), unit.location().mapLocation(), unit.health()));
         }
 
 
@@ -65,13 +65,9 @@ public class Player {
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
-
-
-
+                //BLEEEEGH Make Robot extend Unit, make jobMap full of units.
+                UnitMap.get(unit.id()).toString().doTarget(jobMap.get(unit.id());
             }
-
-
-
 
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
@@ -131,7 +127,7 @@ public class Player {
         int count = 0;
         for (int i = 0; i < units.size(); i++) {
             Unit unit = units.get(i);
-            if(unit.unitType() == UnitType.Worker){
+            if((unit instanceof Worker) && (((Worker) o).name() == name)){
                 count++;
             }
         }

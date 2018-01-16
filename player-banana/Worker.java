@@ -23,7 +23,7 @@ public class Worker extends Robot {
        	}
     }
 
-	public void doTask(Target target){
+	public void doTarget(Target target){
 		switch(target.getTask()){
 			case NONE:
 				break;
@@ -47,5 +47,9 @@ public class Worker extends Robot {
 				break;
 
 		}
+	}
+
+	public String toString(){
+		return "WORKER";
 	}
 }

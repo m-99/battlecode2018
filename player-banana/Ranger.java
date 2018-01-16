@@ -22,7 +22,7 @@ public class Ranger extends Robot{
     	}
     }
 
-	public void doTask(Target target){
+	public void doTarget(Target target){
 		switch(target.getTask()){
 			case NONE:
 				break;
