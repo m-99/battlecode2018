@@ -17,7 +17,9 @@ public class Player {
 
         ArrayList<Target> queue = new ArrayList<Target>();
         HashMap<Integer, Target> jobMap = new HashMap<Integer, Target>();
-        HashMap<Integer, Object> unitMap = new HashMap<Integer, Object>();
+
+        //changed Machine to an interface to allow for the correct doTarget method to be called in each object
+        HashMap<Integer, Machine> unitMap = new HashMap<Integer, Machine>();
         //ArrayList<Object> unitList = new ArrayList<Object>();
 
         //define units, add units to unitList, and add initial units to jobMap
@@ -25,7 +27,7 @@ public class Player {
         for (int i = 0; i < units.size(); i++) {
             Unit unit = units.get(i);
             jobMap.put(unit.id(), new Target(Tasks.NONE, unit.location().mapLocation(), unit.unitType()));
-            unitMap.put(unit.id(), new Worker(unit.id(), unit.location().mapLocation(), unit.health()));
+            unitMap.put(unit.id(), new Worker(gc, unit.id(), unit.location().mapLocation(), unit.health()));
         }
 
 

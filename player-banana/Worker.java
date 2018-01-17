@@ -1,6 +1,6 @@
 import bc.*;
 
-public class Worker extends Robot {
+public class Worker implements Machine {
 
 	private GameController gc;
 	private int id;
@@ -9,12 +9,13 @@ public class Worker extends Robot {
 
 	//variables can be accessed using the super class
 	public Worker(GameController controller, int unit_id, MapLocation loc, long h) {
-		super(unit_id, loc, h);
 		gc = controller;
 		id = unit_id;
 		location = loc;
 		health = h;
 	}
+
+	public void doTarget(Target t) {}
 
 	public void ability( Direction direction) {
     	//replication

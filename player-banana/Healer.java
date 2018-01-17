@@ -1,6 +1,6 @@
 import bc.*;
 
-public class Healer extends Robot {
+public class Healer implements Machine {
 
 	private GameController gc;
 	private int id;
@@ -9,12 +9,13 @@ public class Healer extends Robot {
 
 	//variables can be accessed using the super class
 	public Healer(GameController controller, int unit_id, MapLocation loc, long h) {
-		super(unit_id, loc, h);
 		gc = controller;
 		id = unit_id;
 		location = loc;
 		health = h;
 	}
+
+	public void doTarget(Target t) {}
 	
 	public void ability(GameController gc, int id, int target_id) {
     	//Heal
