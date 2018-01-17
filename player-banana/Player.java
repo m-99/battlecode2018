@@ -6,6 +6,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+
+/*TODO:
+deal with all of this polymorphism bs. One solution is to add every single possible method
+(Including getters and setters? ew) to the interface, but that might just defeat the purpose.
+Have a method of testing this, I will add it to the github (called Oops). Might just need to
+sleep on this/brainstorm another solution with y'all. UnitMap idea might have to be scrapped idk.
+Maybe we have to make our own map class like the example from the previous year. We can figure it
+out! - andy
+*/
 public class Player {
     public static void main(String[] args) {
         // Connect to the manager, starting the game
@@ -67,7 +76,7 @@ public class Player {
             for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
                 //BLEEEEGH Make Robot extend Unit, make jobMap full of units.
-                unitMap.get(unit.id()).doTarget(jobMap.get(unit.id());
+                unitMap.get(unit.id()).doTarget(jobMap.get(unit.id()));
             }
 
             //unit incrementation loop
