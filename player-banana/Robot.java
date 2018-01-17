@@ -39,7 +39,7 @@ public class Robot {
         }
     }
 
-    public void doTask(Target target){
+    public void doTarget(Target target){
     }
     
     public int getUnitId() {

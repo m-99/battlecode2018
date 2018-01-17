@@ -24,7 +24,7 @@ public class Worker implements Machine {
        	}
     }
 
-	public void doTask(Target target){
+	public void doTarget(Target target){
 		switch(target.getTask()){
 			case NONE:
 				break;
@@ -48,5 +48,9 @@ public class Worker implements Machine {
 				break;
 
 		}
+	}
+
+	public String toString(){
+		return "WORKER";
 	}
 }

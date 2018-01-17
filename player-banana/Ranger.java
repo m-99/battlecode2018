@@ -25,7 +25,7 @@ public class Ranger implements Machine {
     	}
     }
 
-	public void doTask(Target target){
+	public void doTarget(Target target){
 		switch(target.getTask()){
 			case NONE:
 				break;

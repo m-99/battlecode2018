@@ -17,7 +17,6 @@ public class Player {
 
         ArrayList<Target> queue = new ArrayList<Target>();
         HashMap<Integer, Target> jobMap = new HashMap<Integer, Target>();
-
         //changed Machine to an interface to allow for the correct doTarget method to be called in each object
         HashMap<Integer, Machine> unitMap = new HashMap<Integer, Machine>();
         //ArrayList<Object> unitList = new ArrayList<Object>();
@@ -67,13 +66,9 @@ public class Player {
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
-
-
-
+                //BLEEEEGH Make Robot extend Unit, make jobMap full of units.
+                unitMap.get(unit.id()).doTarget(jobMap.get(unit.id());
             }
-
-
-
 
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
@@ -133,9 +128,9 @@ public class Player {
         int count = 0;
         for (int i = 0; i < units.size(); i++) {
             Unit unit = units.get(i);
-            if(unit.unitType() == UnitType.Worker){
-                count++;
-            }
+            //if((unit instanceof Worker) && (((Worker) o).name() == name)){
+            //    count++;
+            //}
         }
         return count;
     }
