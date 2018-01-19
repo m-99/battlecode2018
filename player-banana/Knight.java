@@ -15,8 +15,6 @@ public class Knight implements Machine {
 		health = h;
 	}
 
-	public void doTarget(Target t) {}
-
 	public void ability(GameController gc, int id, int target_id) {
     	//javelin
     	if(gc.canJavelin(id, target_id)) {

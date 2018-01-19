@@ -14,9 +14,6 @@ public class Mage implements Machine {
 		location = loc;
 		health = h;
 	}
-
-	public void doTarget(Target t) {}
-
 	public void ability(GameController gc, int id, MapLocation mapL) {
     	//Blink
     	if(gc.canBlink(id, mapL)) {
