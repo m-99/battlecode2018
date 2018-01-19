@@ -75,11 +75,10 @@ public class Player {
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
-                //BLEEEEGH Make Robot extend Unit, make jobMap full of units.
                 unitMap.get(unit.id()).doTarget(jobMap.get(unit.id()));
             }
 
-            //unit incrementation loop
+            /*//unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
 
@@ -108,7 +107,7 @@ public class Player {
                                 if(gc.canMove(unit.id(), randDir) && gc.isMoveReady(unit.id())){
                                     gc.moveRobot(unit.id(), randDir);
                                 }
-                            }*/
+                            }
 
 
                             break;
@@ -127,7 +126,7 @@ public class Player {
                     }
                 }
 
-            }
+            }*/
             // Submit the actions we've done, and wait for our next turn.
             gc.nextTurn();
         }

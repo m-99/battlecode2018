@@ -16,8 +16,6 @@ public class Ranger implements Machine {
 		health = h;
 	}
 
-	public void doTarget(Target t) {}
-
 	public void ability(GameController gc, int id, MapLocation mapL) {
     	//Begin Snipe
     	if(gc.canBeginSnipe(id, mapL)) {

@@ -14,8 +14,6 @@ public class Healer implements Machine {
 		location = loc;
 		health = h;
 	}
-
-	public void doTarget(Target t) {}
 	
 	public void ability(GameController gc, int id, int target_id) {
     	//Heal

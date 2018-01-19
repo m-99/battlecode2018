@@ -15,8 +15,6 @@ public class Worker implements Machine {
 		health = h;
 	}
 
-	public void doTarget(Target t) {}
-
 	public void ability( Direction direction) {
     	//replication
      	if(gc.canReplicate(id, direction) && gc.karbonite() > 15) {
