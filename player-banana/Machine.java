@@ -1,5 +1,13 @@
 import bc.*;
+import java.util.Arrays;
+import java.util.List;
 
+/*
+This mess of a class is going to contain all of the methods for any specific task (including path
+planning and other memory things). I guess it will also contain the code for the structures, which
+will include calculating when the rockets should take off and how the factories build robots,
+and that should be built into our Tasks enum. - ur buddy andy
+ */
 //possible parent class instead of separating robots and structures?
 public class Machine {
 
@@ -20,7 +28,7 @@ public class Machine {
     public void doThings(Target t) {
         switch(t.getTask()) {
             case MOVE:
-                move();
+                move(t.getMapLocation());
                 break;
             case RANDOM_MOVE:
                 randomMove();
@@ -29,58 +37,144 @@ public class Machine {
                 attack();
                 break;
             case BLUEPRINT:
-                blueprint();
+                blueprint(t.getStructure(), t.getDirection());
                 break;
             case BUILD:
-                build();
+                build(); //get some sort of blueprint id? (complicated)
                 break;
             case REPAIR:
-                repair();
+                repair(t.getTargetID()); //targets can be structures too
                 break;
             case REPLICATE:
-                replicate();
+                replicate(t.getDirection());
                 break;
             case JAVELIN:
-                javelin();
+                javelin(t.getTargetID());
                 break;
             case SNIPE:
-                snipe();
+                snipe(t.getMapLocation());
                 break;
             case BLINK:
-                blink();
+                blink(t.getMapLocation());
                 break;
             case HEAL:
-                heal();
+                heal(t.getTargetID());
                 break;
             case OVERCHARGE:
-                overcharge();
+                overcharge(t.getTargetID());
                 break;
         }
 
     }
 
     //general things
-    public void move() {}
+    public void move(MapLocation location) {
+
+    }
     public void randomMove() {}
+        List<Direction> directions = Arrays.asList(Direction.values());
+        while (!directions.isEmpty()) { //why is isEmpty creating an error???
+        Direction randomDirection = directions.remove((int)(Math.random()*directions.size()));
+        if (gc.canMove(id, randomDirection) && gc.isMoveReady(id)) {
+            try {
+                gc.moveRobot(id, randomDirection);
+                //return;
+            } catch (Exception e) {
+                System.out.println("Robot Exception: randomMove");
+            }
+        }
+    }
     public void attack() {}
 
     //worker things
-    public void blueprint() {}
-    public void build() {}
-    public void repair() {}
-    public void replicate() {}
+    public void blueprint(UnitType structure, Direction dir) {
+        if(gc.canBlueprint(id, structure, dir)) {
+            try {
+                gc.blueprint(id, structure, dir);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: blueprint");
+            }
+        }
+    }
+    public void build(int blueprint_id) {
+        if(gc.canBuild(id, blueprint_id)) {
+            try {
+                gc.build(id, blueprint_id);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: build");
+            }
+        }
+    }
+    public void repair(int structure_id) {
+        if(gc.canRepair(id, structure_id)) {
+            try {
+                gc.repair(id, structure_id);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: repair");
+            }
+        }
+    }
+    public void replicate(Direction dir) {
+        if(gc.canReplicate(id, dir)) {
+            try {
+                gc.replicate(id, dir);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: replicate");
+            }
+        }
+    }
 
     //knight things
-    public void javelin() {}
+    public void javelin(int target_id) {
+        if(gc.canJavelin(id, target_id)) {
+            try {
+                gc.javelin(id, target_id);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: javelin");
+            }
+        }
+    }
 
     //(st)ranger things
-    public void snipe() {}
+    public void snipe(MapLocation location) {
+        if(gc.canBeginSnipe(id, location)) {
+            try {
+                gc.beginSnipe(id, location);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: snipe");
+            }
+        }
+    }
 
     //mage things
-    public void blink() {}
+    public void blink(MapLocation location) {
+        if(gc.canBlink(id, location)) {
+            try {
+                gc.blink(id, location);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: blink");
+            }
+        }
+    }
 
     //healer things
-    public void heal() {}
-    public void overcharge() {}
+    public void heal(int target_id) {
+        if(gc.canHeal(id, target_id) {
+            try {
+                gc.heal(id, target_id);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: heal");
+            }
+        }
+    }
+    public void overcharge(int target_id) {
+        if(gc.canOvercharge(id, target_id)) {
+            try {
+                gc.overcharge(id, target_id);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: overcharge");
+            }
+        }
+    }
 
 }
