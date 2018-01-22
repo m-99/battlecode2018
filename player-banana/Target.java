@@ -92,6 +92,6 @@ public class Target {
     public void setStructure(UnitType st) { structure = st; }
 
     public String toString() {
-        System.out.println("Task: " + tasks);
+        return "" + tasks;
     }
 }

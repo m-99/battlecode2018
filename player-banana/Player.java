@@ -50,9 +50,10 @@ public class Player {
             units = gc.myUnits();
 
             //add babbies
-            ArrayList<Unit> babbies = addUnits(oldUnits, units);
+            ArrayList<Unit> babbies = addUnits(units, units);
             for (int i = 0; i < babbies.size(); i++) {
-                Unit unit = units.get(i);
+                Unit unit = babbies.get(i);
+                System.out.println("New unit " + unit.id());
                 jobMap.put(unit.id(), new Target());
                 unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health()));
             }
@@ -91,8 +92,10 @@ public class Player {
                 Unit unit = units.get(i);
                 System.out.println("ID: " + unit.id() + ", job: " + jobMap.get(unit.id()).toString());
             }
+            for (int i = 0; i < queue.size(); i++) {
+                System.out.println("position" + i + " queue: " + queue.get(i).toString());
+            }
 
-            System.out.println("finished jobmap section");
 
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
@@ -128,16 +131,18 @@ public class Player {
     }
 
     public static ArrayList addUnits(VecUnit oldUnit, VecUnit newUnit){
+        //TODO fix this bullshit
         ArrayList<Unit> babbies = new ArrayList<Unit>();
         for (int i = 0; i < newUnit.size(); i++) {
             boolean inList = false;
             for(int j = 0; j < oldUnit.size(); j++){
-                if(newUnit.get(j) == oldUnit.get(i)) {
+                if(newUnit.get(i) == oldUnit.get(j)) {
                     inList = true;
                 }
             }
             if(!inList){
                 babbies.add(newUnit.get(i));
+                System.out.println("New unit found");
             }
         }
         return babbies;
