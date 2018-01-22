@@ -34,7 +34,7 @@ public class Machine {
                 randomMove();
                 break;
             case ATTACK:
-                attack();
+                attack(t.getTargetID());
                 break;
             case BLUEPRINT:
                 blueprint(t.getStructure(), t.getDirection());
@@ -84,7 +84,15 @@ public class Machine {
             }
         }
     }
-    public void attack() {}
+    public void attack(int target_id) {
+        if(gc.canAttack(id, target_id) && gc.isAttackReady(id)) {
+            try {
+                gc.attack(id, target_id);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: javelin");
+            }
+        }
+    }
 
     //worker things
     public void blueprint(UnitType structure, Direction dir) {
@@ -126,7 +134,7 @@ public class Machine {
 
     //knight things
     public void javelin(int target_id) {
-        if(gc.canJavelin(id, target_id)) {
+        if(gc.canJavelin(id, target_id) && gc.isJavelinReady(id)) {
             try {
                 gc.javelin(id, target_id);
             } catch (Exception e) {
@@ -137,7 +145,7 @@ public class Machine {
 
     //(st)ranger things
     public void snipe(MapLocation location) {
-        if(gc.canBeginSnipe(id, location)) {
+        if(gc.canBeginSnipe(id, location) && gc.isBeginSnipeReady(id)) {
             try {
                 gc.beginSnipe(id, location);
             } catch (Exception e) {
@@ -148,7 +156,7 @@ public class Machine {
 
     //mage things
     public void blink(MapLocation location) {
-        if(gc.canBlink(id, location)) {
+        if(gc.canBlink(id, location) && gc.isBlinkReady(id)) {
             try {
                 gc.blink(id, location);
             } catch (Exception e) {
@@ -159,7 +167,7 @@ public class Machine {
 
     //healer things
     public void heal(int target_id) {
-        if(gc.canHeal(id, target_id)) {
+        if(gc.canHeal(id, target_id) && gc.isHealReady(id)) {
             try {
                 gc.heal(id, target_id);
             } catch (Exception e) {
@@ -168,7 +176,7 @@ public class Machine {
         }
     }
     public void overcharge(int target_id) {
-        if(gc.canOvercharge(id, target_id)) {
+        if(gc.canOvercharge(id, target_id) && gc.isOverchargeReady(id)) {
             try {
                 gc.overcharge(id, target_id);
             } catch (Exception e) {
