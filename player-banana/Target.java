@@ -43,7 +43,7 @@ public class Target {
         structure = UnitType.Factory;
     }
 
-    //for REPAIR, JAVELIN, BUILD, and HEAL
+    //for REPAIR, JAVELIN, BUILD, ATTACK, and HEAL
     public Target(Tasks t, int tID) {
         tasks = t;
         location = new MapLocation(Planet.Earth, 0,0);

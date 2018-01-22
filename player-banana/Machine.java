@@ -13,11 +13,11 @@ public class Machine {
 
     GameController gc;
     int id;
-    MachineType type;
+    UnitType type; //instead of machine type?
     MapLocation loc;
     long health;
 
-    public Machine(GameController gamec, int unitId, MachineType ty, MapLocation location, long h) {
+    public Machine(GameController gamec, int unitId, UnitType ty, MapLocation location, long h) {
         gc = gamec;
         id = unitId;
         type = ty;
