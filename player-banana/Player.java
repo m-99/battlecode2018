@@ -89,7 +89,7 @@ public class Player {
 
             for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
-                System.out.println("ID: " + unit.id() + ", job: " + jobMap.get(unit.id()));
+                System.out.println("ID: " + unit.id() + ", job: " + jobMap.get(unit.id()).toString());
             }
 
             System.out.println("finished jobmap section");

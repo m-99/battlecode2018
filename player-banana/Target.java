@@ -90,4 +90,8 @@ public class Target {
     public void setTargetID(int t_id) { targetID = t_id; }
     public void setDirection(Direction d) { dir = d; }
     public void setStructure(UnitType st) { structure = st; }
+
+    public String toString() {
+        System.out.println("Task: " + tasks);
+    }
 }
