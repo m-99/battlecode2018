@@ -40,7 +40,7 @@ public class Machine {
                 blueprint(t.getStructure(), t.getDirection());
                 break;
             case BUILD:
-                build(); //get some sort of blueprint id? (complicated)
+                build(t.getTargetID()); //target id can be a blueprint id as well
                 break;
             case REPAIR:
                 repair(t.getTargetID()); //targets can be structures too
@@ -64,7 +64,6 @@ public class Machine {
                 overcharge(t.getTargetID());
                 break;
         }
-
     }
 
     //general things

@@ -4,7 +4,7 @@ public class Target {
 
     private Tasks tasks;
     private MapLocation location;
-    private int target_id;
+    private int targetID;
     private Direction dir;
     private UnitType structure;
 
@@ -16,13 +16,60 @@ public class Target {
     //UnitType is only for blueprints...default could be just a factory??
 
     //I want to make more constructors, but I will do that tomorrow
-    public Target(Tasks t, MapLocation l, int t_id, Direction direction, UnitType st) {
+    //Most generic constructor
+    public Target(Tasks t, MapLocation l, int tID, Direction direction, UnitType st) {
         tasks = t;
         location = l;               
-        target_id = t_id;
+        targetID = tID;
         dir = direction;
         structure = st;
     }
+
+    //default constructor
+    public Target() {
+        tasks = Tasks.NONE;
+        location = new MapLocation(Planet.Earth, 0,0);
+        targetID = -1;
+        dir = Direction.Center;
+        structure = UnitType.Factory;
+    }
+
+    //for MOVE, SNIPE, and BLINK
+    public Target(Tasks t, MapLocation l) {
+        tasks = t;
+        location = l;
+        targetID = -1;
+        dir = Direction.Center;
+        structure = UnitType.Factory;
+    }
+
+    //for REPAIR, JAVELIN, BUILD, and HEAL
+    public Target(Tasks t, int tID) {
+        tasks = t;
+        location = new MapLocation(Planet.Earth, 0,0);
+        targetID = tID;
+        dir = Direction.Center;
+        structure = UnitType.Factory;
+    }
+
+    //for BLUEPRINT
+    public Target(Tasks t, UnitType str, Direction d) {
+        tasks = t;
+        location = new MapLocation(Planet.Earth, 0,0);
+        targetID = -1;
+        dir = d;
+        structure = str;
+    }
+
+    //for REPLICATE
+    public Target(Tasks t, Direction d) {
+        tasks = t;
+        location = new MapLocation(Planet.Earth, 0,0);
+        targetID = -1;
+        dir = d;
+        structure = UnitType.Factory;
+    }
+
 
     public Tasks getTask() {
         return tasks;
@@ -30,7 +77,7 @@ public class Target {
     public MapLocation getMapLocation() {
         return location;
     }
-    public int getTargetID() { return target_id; }
+    public int getTargetID() { return targetID; }
     public Direction getDirection() { return dir; }
     public UnitType getStructure() { return structure; }
 
@@ -40,7 +87,7 @@ public class Target {
     public void setMapLocation(MapLocation lo) {
         location = lo;
     }
-    public void setTargetID(int t_id) { target_id = t_id; }
+    public void setTargetID(int t_id) { targetID = t_id; }
     public void setDirection(Direction d) { dir = d; }
     public void setStructure(UnitType st) { structure = st; }
 }
