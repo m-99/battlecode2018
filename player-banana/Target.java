@@ -61,7 +61,7 @@ public class Target {
         structure = str;
     }
 
-    //for REPLICATE
+    //for REPLICATE, HARVEST
     public Target(Tasks t, Direction d) {
         tasks = t;
         location = new MapLocation(Planet.Earth, 0,0);

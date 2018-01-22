@@ -38,7 +38,6 @@ public class Player {
             unitMap.put(unit.id(), new Worker(gc, unit.id(), unit.location().mapLocation(), unit.health()));
         }
 
-
         while (true) {
             System.out.println("Current round: "+gc.round());
 

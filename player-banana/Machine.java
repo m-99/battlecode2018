@@ -36,6 +36,9 @@ public class Machine {
             case ATTACK:
                 attack();
                 break;
+            case HARVEST:
+                harvest(t.getDirection());
+                break;
             case BLUEPRINT:
                 blueprint(t.getStructure(), t.getDirection());
                 break;
@@ -86,6 +89,15 @@ public class Machine {
     public void attack() {}
 
     //worker things
+    public void harvest(Direction d) {
+        if(gc.canHarvest(id, d)) {
+            try {
+                gc.harvest(id, d);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: harvest");
+            }
+        }
+    }
     public void blueprint(UnitType structure, Direction dir) {
         if(gc.canBlueprint(id, structure, dir)) {
             try {
