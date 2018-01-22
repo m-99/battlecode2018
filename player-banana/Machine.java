@@ -70,16 +70,17 @@ public class Machine {
     public void move(MapLocation location) {
 
     }
-    public void randomMove() {}
+    public void randomMove() {
         List<Direction> directions = Arrays.asList(Direction.values());
-        while (!directions.isEmpty()) { //why is isEmpty creating an error???
-        Direction randomDirection = directions.remove((int)(Math.random()*directions.size()));
-        if (gc.canMove(id, randomDirection) && gc.isMoveReady(id)) {
-            try {
-                gc.moveRobot(id, randomDirection);
-                //return;
-            } catch (Exception e) {
-                System.out.println("Robot Exception: randomMove");
+        while (!directions.isEmpty()) {
+            Direction randomDirection = directions.remove((int) (Math.random() * directions.size()));
+            if (gc.canMove(id, randomDirection) && gc.isMoveReady(id)) {
+                try {
+                    gc.moveRobot(id, randomDirection);
+                    //return;
+                } catch (Exception e) {
+                    System.out.println("Robot Exception: randomMove");
+                }
             }
         }
     }
@@ -158,7 +159,7 @@ public class Machine {
 
     //healer things
     public void heal(int target_id) {
-        if(gc.canHeal(id, target_id) {
+        if(gc.canHeal(id, target_id)) {
             try {
                 gc.heal(id, target_id);
             } catch (Exception e) {

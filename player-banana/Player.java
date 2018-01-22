@@ -35,22 +35,30 @@ public class Player {
         for (int i = 0; i < units.size(); i++) {
             Unit unit = units.get(i);
             jobMap.put(unit.id(), new Target(Tasks.NONE, unit.location().mapLocation(), unit.unitType()));
-            unitMap.put(unit.id(), new Worker(gc, unit.id(), unit.location().mapLocation(), unit.health()));
+            unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health()));
         }
+        VecUnit oldUnits = units;
 
 
         while (true) {
             System.out.println("Current round: "+gc.round());
 
+            oldUnits = units;
             units = gc.myUnits();
-            //note: don't need to mark dead units; simply ignoring them in job hashmap for now
+
+            //add babbies
+            ArrayList<Unit> babbies = addUnits(oldUnits, units);
+            for (int i = 0; i < babbies.size(); i++) {
+                Unit unit = units.get(i);
+                jobMap.put(unit.id(), new Target(Tasks.NONE, unit.location().mapLocation(), unit.unitType()));
+                unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health()));
+            }
 
             //phase logic
             boolean phase1Queued = false;
             boolean phase2Queued = false;
             boolean phase3Queued = false;
             int phase = 1;
-
             if(phase == 1 && !phase1Queued ){
                 for(int x = 0; x < 10; x++){
                     queue.add(new Target(Tasks.MOVE, new MapLocation(Planet.Earth, 0, 0), UnitType.Worker));
@@ -152,5 +160,21 @@ public class Player {
             }
         }
         return count;
+    }
+
+    public static ArrayList addUnits(VecUnit oldUnit, VecUnit newUnit){
+        ArrayList<Unit> babbies = new ArrayList<Unit>();
+        for (int i = 0; i < newUnit.size(); i++) {
+            boolean inList = false;
+            for(int j = 0; j < oldUnit.size(); j++){
+                if(newUnit.get(j) == oldUnit.get(i)) {
+                    inList = true;
+                }
+            }
+            if(!inList){
+                babbies.add(newUnit.get(i));
+            }
+        }
+        return babbies;
     }
 }
