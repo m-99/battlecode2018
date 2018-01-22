@@ -2,7 +2,7 @@ public enum Tasks {
     //general non-UnitType specific things
     MOVE, RANDOM_MOVE, ATTACK,
     //worker things
-    BLUEPRINT, BUILD, REPAIR, REPLICATE,
+    HARVEST, BLUEPRINT, BUILD, REPAIR, REPLICATE,
     //knight things
     JAVELIN,
     //(st)ranger things

@@ -39,7 +39,6 @@ public class Player {
         }
         VecUnit oldUnits = units;
 
-
         while (true) {
             System.out.println("Current round: "+gc.round());
 

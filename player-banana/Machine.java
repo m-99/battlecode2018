@@ -13,11 +13,11 @@ public class Machine {
 
     GameController gc;
     int id;
-    MachineType type;
+    UnitType type; //instead of machine type?
     MapLocation loc;
     long health;
 
-    public Machine(GameController gamec, int unitId, MachineType ty, MapLocation location, long h) {
+    public Machine(GameController gamec, int unitId, UnitType ty, MapLocation location, long h) {
         gc = gamec;
         id = unitId;
         type = ty;
@@ -35,6 +35,9 @@ public class Machine {
                 break;
             case ATTACK:
                 attack(t.getTargetID());
+                break;
+            case HARVEST:
+                harvest(t.getDirection());
                 break;
             case BLUEPRINT:
                 blueprint(t.getStructure(), t.getDirection());
@@ -95,6 +98,15 @@ public class Machine {
     }
 
     //worker things
+    public void harvest(Direction d) {
+        if(gc.canHarvest(id, d)) {
+            try {
+                gc.harvest(id, d);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: harvest");
+            }
+        }
+    }
     public void blueprint(UnitType structure, Direction dir) {
         if(gc.canBlueprint(id, structure, dir)) {
             try {
