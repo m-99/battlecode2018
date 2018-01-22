@@ -49,7 +49,7 @@ public class Player {
             ArrayList<Unit> babbies = addUnits(oldUnits, units);
             for (int i = 0; i < babbies.size(); i++) {
                 Unit unit = units.get(i);
-                jobMap.put(unit.id(), new Target(Tasks.NONE, unit.location().mapLocation(), unit.unitType()));
+                jobMap.put(unit.id(), new Target());
                 unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health()));
             }
 
@@ -60,7 +60,7 @@ public class Player {
             int phase = 1;
             if(phase == 1 && !phase1Queued ){
                 for(int x = 0; x < 10; x++){
-                    queue.add(new Target(Tasks.MOVE, new MapLocation(Planet.Earth, 0, 0), UnitType.Worker));
+                    queue.add(new Target(Tasks.RANDOM_MOVE, new MapLocation(Planet.Earth, 0, 0)));
                 }
             }else if(phase == 2 && !phase2Queued){
 
@@ -72,7 +72,7 @@ public class Player {
             if(queue.size() > 0){
                 for (int i = 0; i < units.size(); i++) {
                     Unit unit = units.get(i);
-                    if (jobMap.get(unit.id()).getTask() == Tasks.NONE && unit.unitType() == queue.get(0).getUnitType()) {
+                    if (jobMap.get(unit.id()).getTask() == Tasks.NONE && isTaskValid(unit.unitType(), queue.get(0).getTask())) {
                         jobMap.put(unit.id(), queue.get(0));
                         queue.remove(0);
                     }
@@ -175,5 +175,47 @@ public class Player {
             }
         }
         return babbies;
+    }
+
+    public static boolean isTaskValid(UnitType unitType, Tasks task ){
+        //TODO:
+        /*We want to be able to specify which units specifically attack. Send UnitType with Target?
+        Currently only letting knights attack; lol
+         */
+        switch(unitType){
+            case Worker:
+                if(task == Tasks.HARVEST || task == Tasks.BLUEPRINT || task == Tasks.BUILD || task == Tasks.REPAIR || task == Tasks.REPLICATE){
+                    return true;
+                }
+                break;
+            case Knight:
+                if(task == Tasks.JAVELIN || task == Tasks.ATTACK){
+                    return true;
+                }
+                break;
+            case Ranger:
+                if(task == Tasks.SNIPE){
+                    return true;
+                }
+                break;
+            case Mage:
+                if(task == Tasks.BLINK){
+                    return true;
+                }
+                break;
+            case Healer:
+                if(task == Tasks.HEAL || task == Tasks.OVERCHARGE){
+                    return true;
+                }
+                break;
+            default:
+                if(task == Tasks.MOVE || task == Tasks.RANDOM_MOVE){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+        }
+        return false;
     }
 }

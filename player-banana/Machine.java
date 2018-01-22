@@ -25,7 +25,7 @@ public class Machine {
         health = h;
     }
 
-    public void doThings(Target t) {
+    public void doTarget(Target t) {
         switch(t.getTask()) {
             case MOVE:
                 move(t.getMapLocation());
