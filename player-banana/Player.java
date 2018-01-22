@@ -60,7 +60,7 @@ public class Player {
             //phase logic
             int phase = 1;
             if(phase == 1 && !phase1Queued ){
-                for(int x = 0; x < 1000; x++){
+                for(int x = 0; x < 10; x++){
                     queue.add(new Target(Tasks.RANDOM_MOVE, new MapLocation(Planet.Earth, 0, 0)));
                     System.out.println("queued random move" + x);
                     phase1Queued = true;
