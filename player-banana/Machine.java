@@ -1,6 +1,9 @@
 import bc.*;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /*
 This mess of a class is going to contain all of the methods for any specific task (including path
@@ -74,18 +77,25 @@ public class Machine {
 
     }
     public void randomMove() {
-        List<Direction> directions = Arrays.asList(Direction.values());
+        ArrayList<Direction> directions = new ArrayList<>(Arrays.asList(Direction.values()));
+        //List<Direction> directions = Arrays.asList(Direction.values());
         while (!directions.isEmpty()) {
-            Direction randomDirection = directions.remove((int) (Math.random() * directions.size()));
-            if (gc.canMove(id, randomDirection) && gc.isMoveReady(id)) {
+            Random r = new Random();
+            int dirNum = r.nextInt(directions.size());
+            Direction randomDir = directions.get(dirNum);
+            if (gc.canMove(id, randomDir) && gc.isMoveReady(id)) {
                 try {
-                    gc.moveRobot(id, randomDirection);
+                    gc.moveRobot(id, randomDir);
                     //return;
                 } catch (Exception e) {
                     System.out.println("Robot Exception: randomMove");
                 }
             }
+            else{
+                directions.remove(dirNum);
+            }
         }
+        System.out.print("randomMove Called!");
     }
     public void attack(int target_id) {
         if(gc.canAttack(id, target_id) && gc.isAttackReady(id)) {
