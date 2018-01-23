@@ -52,7 +52,7 @@ public class Player {
             //add babbies
             ArrayList<Unit> babbies = addUnits(oldUnits, units);
             for (int i = 0; i < babbies.size(); i++) {
-                Unit unit = units.get(i);
+                Unit unit = babbies.get(i);
                 jobMap.put(unit.id(), new Target());
                 unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health()));
             }
