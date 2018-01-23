@@ -1,6 +1,9 @@
 import bc.*;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /*
 This mess of a class is going to contain all of the methods for any specific task (including path
@@ -25,7 +28,7 @@ public class Machine {
         health = h;
     }
 
-    public void doThings(Target t) {
+    public void doTarget(Target t) {
         switch(t.getTask()) {
             case MOVE:
                 move(t.getMapLocation());
@@ -34,7 +37,7 @@ public class Machine {
                 randomMove();
                 break;
             case ATTACK:
-                attack();
+                attack(t.getTargetID());
                 break;
             case HARVEST:
                 harvest(t.getDirection());
@@ -74,20 +77,35 @@ public class Machine {
 
     }
     public void randomMove() {
-        List<Direction> directions = Arrays.asList(Direction.values());
+        ArrayList<Direction> directions = new ArrayList<>(Arrays.asList(Direction.values()));
+        //List<Direction> directions = Arrays.asList(Direction.values());
         while (!directions.isEmpty()) {
-            Direction randomDirection = directions.remove((int) (Math.random() * directions.size()));
-            if (gc.canMove(id, randomDirection) && gc.isMoveReady(id)) {
+            Random r = new Random();
+            int dirNum = r.nextInt(directions.size());
+            Direction randomDir = directions.get(dirNum);
+            if (gc.canMove(id, randomDir) && gc.isMoveReady(id)) {
                 try {
-                    gc.moveRobot(id, randomDirection);
+                    gc.moveRobot(id, randomDir);
                     //return;
                 } catch (Exception e) {
                     System.out.println("Robot Exception: randomMove");
                 }
             }
+            else{
+                directions.remove(dirNum);
+            }
+        }
+        System.out.print("randomMove Called!");
+    }
+    public void attack(int target_id) {
+        if(gc.canAttack(id, target_id) && gc.isAttackReady(id)) {
+            try {
+                gc.attack(id, target_id);
+            } catch (Exception e) {
+                System.out.println("Robot Exception: javelin");
+            }
         }
     }
-    public void attack() {}
 
     //worker things
     public void harvest(Direction d) {
@@ -138,7 +156,7 @@ public class Machine {
 
     //knight things
     public void javelin(int target_id) {
-        if(gc.canJavelin(id, target_id)) {
+        if(gc.canJavelin(id, target_id) && gc.isJavelinReady(id)) {
             try {
                 gc.javelin(id, target_id);
             } catch (Exception e) {
@@ -149,7 +167,7 @@ public class Machine {
 
     //(st)ranger things
     public void snipe(MapLocation location) {
-        if(gc.canBeginSnipe(id, location)) {
+        if(gc.canBeginSnipe(id, location) && gc.isBeginSnipeReady(id)) {
             try {
                 gc.beginSnipe(id, location);
             } catch (Exception e) {
@@ -160,7 +178,7 @@ public class Machine {
 
     //mage things
     public void blink(MapLocation location) {
-        if(gc.canBlink(id, location)) {
+        if(gc.canBlink(id, location) && gc.isBlinkReady(id)) {
             try {
                 gc.blink(id, location);
             } catch (Exception e) {
@@ -171,7 +189,7 @@ public class Machine {
 
     //healer things
     public void heal(int target_id) {
-        if(gc.canHeal(id, target_id)) {
+        if(gc.canHeal(id, target_id) && gc.isHealReady(id)) {
             try {
                 gc.heal(id, target_id);
             } catch (Exception e) {
@@ -180,7 +198,7 @@ public class Machine {
         }
     }
     public void overcharge(int target_id) {
-        if(gc.canOvercharge(id, target_id)) {
+        if(gc.canOvercharge(id, target_id) && gc.isOverchargeReady(id)) {
             try {
                 gc.overcharge(id, target_id);
             } catch (Exception e) {

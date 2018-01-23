@@ -39,8 +39,12 @@ public class Player {
         }
         VecUnit oldUnits = units;
 
+        boolean phase1Queued = false;
+        boolean phase2Queued = false;
+        boolean phase3Queued = false;
+
         while (true) {
-            System.out.println("Current round: "+gc.round());
+            //System.out.println("Current round: "+gc.round());
 
             oldUnits = units;
             units = gc.myUnits();
@@ -54,13 +58,12 @@ public class Player {
             }
 
             //phase logic
-            boolean phase1Queued = false;
-            boolean phase2Queued = false;
-            boolean phase3Queued = false;
             int phase = 1;
             if(phase == 1 && !phase1Queued ){
-                for(int x = 0; x < 10; x++){
-                    queue.add(new Target(Tasks.MOVE, new MapLocation(Planet.Earth, 0, 0)));
+                for(int x = 0; x < 1000; x++){
+                    queue.add(new Target(Tasks.RANDOM_MOVE, new MapLocation(Planet.Earth, 0, 0)));
+                    System.out.println("queued random move" + x);
+                    phase1Queued = true;
                 }
             }else if(phase == 2 && !phase2Queued){
 
@@ -68,16 +71,28 @@ public class Player {
 
             }
 
-            //add queue items to open spaces in Hashmap
+            //add queue items to open spaces in jobmap
             if(queue.size() > 0){
                 for (int i = 0; i < units.size(); i++) {
                     Unit unit = units.get(i);
-                    if (jobMap.get(unit.id()).getTask() == Tasks.NONE && unit.unitType() == queue.get(0).getUnitType()) {
+                    if (jobMap.get(unit.id()).getTask() == Tasks.NONE ) {
+                        //&& isTaskValid(unit.unitType(), queue.get(0).getTask())
                         jobMap.put(unit.id(), queue.get(0));
                         queue.remove(0);
+                        System.out.println("Job added to jobMap");
+                    }
+                    else{
+                        System.out.println("Job NOT added to jobMap; fuck you");
                     }
                 }
             }
+
+            for (int i = 0; i < units.size(); i++) {
+                Unit unit = units.get(i);
+                System.out.println("ID: " + unit.id() + ", job: " + jobMap.get(unit.id()));
+            }
+
+            System.out.println("finished jobmap section");
 
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
@@ -85,55 +100,6 @@ public class Player {
                 unitMap.get(unit.id()).doTarget(jobMap.get(unit.id()));
             }
 
-            /*//unit incrementation loop
-            for (int i = 0; i < units.size(); i++) {
-                Unit unit = units.get(i);
-
-                if(unit.location().isOnPlanet(Planet.Earth)){
-                    switch(unit.unitType()){
-                        case Worker:
-                            //TODO
-                            //make work with objects
-                            //make replication stuff work, by adding to unitList
-                            //not using vecUnit?
-
-                            /*Random r = new Random();
-                            Direction randDir;
-                            ArrayList<Direction> validDir = new ArrayList<Direction>();
-                            for(Direction direction : directions){
-                                if(gc.canMove(unit.id(), direction)) {
-                                    validDir.add(direction);
-                                }
-                            }
-                            if(validDir.size() > 0) {
-                                randDir = validDir.get(r.nextInt(validDir.size()));
-                                if(gc.canBlueprint(unit.id(), UnitType.Factory, randDir)){
-                                    gc.blueprint(unit.id(), UnitType.Factory, randDir);
-                                }
-                                randDir = validDir.get(r.nextInt(validDir.size()));
-                                if(gc.canMove(unit.id(), randDir) && gc.isMoveReady(unit.id())){
-                                    gc.moveRobot(unit.id(), randDir);
-                                }
-                            }
-
-
-                            break;
-                        case Mage:
-                            break;
-                        case Healer:
-                            break;
-                        case Knight:
-                            break;
-                        case Ranger:
-                            break;
-                        case Factory:
-                            break;
-                        case Rocket:
-                            break;
-                    }
-                }
-
-            }*/
             // Submit the actions we've done, and wait for our next turn.
             gc.nextTurn();
         }
@@ -175,5 +141,47 @@ public class Player {
             }
         }
         return babbies;
+    }
+
+    public static boolean isTaskValid(UnitType unitType, Tasks task ){
+        //TODO:
+        /*We want to be able to specify which units specifically attack. Send UnitType with Target?
+        Currently only letting knights attack; lol
+         */
+        switch(unitType){
+            case Worker:
+                if(task == Tasks.HARVEST || task == Tasks.BLUEPRINT || task == Tasks.BUILD || task == Tasks.REPAIR || task == Tasks.REPLICATE){
+                    return true;
+                }
+                break;
+            case Knight:
+                if(task == Tasks.JAVELIN || task == Tasks.ATTACK){
+                    return true;
+                }
+                break;
+            case Ranger:
+                if(task == Tasks.SNIPE){
+                    return true;
+                }
+                break;
+            case Mage:
+                if(task == Tasks.BLINK){
+                    return true;
+                }
+                break;
+            case Healer:
+                if(task == Tasks.HEAL || task == Tasks.OVERCHARGE){
+                    return true;
+                }
+                break;
+            default:
+                if(task == Tasks.MOVE || task == Tasks.RANDOM_MOVE){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+        }
+        return false;
     }
 }
