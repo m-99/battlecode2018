@@ -35,13 +35,14 @@ public class Player {
         for (int i = 0; i < units.size(); i++) {
             Unit unit = units.get(i);
             jobMap.put(unit.id(), new Target());
-            unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health()));
+            unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health(), new Target()));
         }
         VecUnit oldUnits = units;
 
         boolean phase1Queued = false;
         boolean phase2Queued = false;
         boolean phase3Queued = false;
+        int phase = 1;
 
         while (true) {
             //System.out.println("Current round: "+gc.round());
@@ -50,21 +51,22 @@ public class Player {
             units = gc.myUnits();
 
             //add babbies
-            ArrayList<Unit> babbies = addUnits(oldUnits, units);
+            ArrayList<Unit> babbies = newUnits(oldUnits, units);
             for (int i = 0; i < babbies.size(); i++) {
                 Unit unit = babbies.get(i);
+                System.out.println("New unit " + unit.id());
                 jobMap.put(unit.id(), new Target());
-                unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health()));
+                unitMap.put(unit.id(), new Machine(gc, unit.id(), unit.unitType(), unit.location().mapLocation(), unit.health(), new Target()));
             }
 
             //phase logic
-            int phase = 1;
+
             if(phase == 1 && !phase1Queued ){
-                for(int x = 0; x < 1000; x++){
-                    queue.add(new Target(Tasks.RANDOM_MOVE, new MapLocation(Planet.Earth, 0, 0)));
-                    System.out.println("queued random move" + x);
-                    phase1Queued = true;
+                for(int x = 0; x < 10; x++){
+                    //queue.add(new Target(Tasks.RANDOM_MOVE, new MapLocation(Planet.Earth, 0, 0)));
+                    queue.add(new Target(Tasks.REPLICATE, Direction.Center));
                 }
+                phase1Queued = true;
             }else if(phase == 2 && !phase2Queued){
 
             }else if(phase == 3 && !phase3Queued ){
@@ -72,27 +74,39 @@ public class Player {
             }
 
             //add queue items to open spaces in jobmap
-            if(queue.size() > 0){
-                for (int i = 0; i < units.size(); i++) {
-                    Unit unit = units.get(i);
-                    if (jobMap.get(unit.id()).getTask() == Tasks.NONE ) {
-                        //&& isTaskValid(unit.unitType(), queue.get(0).getTask())
-                        jobMap.put(unit.id(), queue.get(0));
-                        queue.remove(0);
-                        System.out.println("Job added to jobMap");
-                    }
-                    else{
-                        System.out.println("Job NOT added to jobMap; fuck you");
-                    }
+            for (int i = 0; i < units.size(); i++) {
+                Unit unit = units.get(i);
+                System.out.println("" + unitMap.get(unit.id()).getJobStatus());
+                //checks if unit is not currently running a job, and updates jobMap with NONE task
+                if(unitMap.get(unit.id()).getJobStatus() == TargetStatus.FINISHED){
+                    jobMap.put(unit.id(), new Target());
+                    System.out.println("Finished job");
+                }
+                //adds a units Target back to the queue if it failed the job
+                else if(unitMap.get(unit.id()).getJobStatus() == TargetStatus.FAILED){
+                    queue.add(unitMap.get(unit.id()).getCurrentTarget());
+                    jobMap.put(unit.id(), new Target());
+                    System.out.println("Failed job");
+                }
+                if (jobMap.get(unit.id()).getTask() == Tasks.NONE && queue.size() > 0) {
+                    //&& isTaskValid(unit.unitType(), queue.get(0).getTask())
+                    jobMap.put(unit.id(), queue.get(0));
+                    queue.remove(0);
+                    System.out.println("Job added to jobMap");
+                } else{
+                    System.out.println("Job NOT added to jobMap; fuck you");
                 }
             }
 
-            for (int i = 0; i < units.size(); i++) {
+
+            /*for (int i = 0; i < units.size(); i++) {
                 Unit unit = units.get(i);
                 System.out.println("ID: " + unit.id() + ", job: " + jobMap.get(unit.id()).toString());
+            }*/
+            for (int i = 0; i < queue.size(); i++) {
+                System.out.println("position" + i + " queue: " + queue.get(i).toString());
             }
 
-            System.out.println("finished jobmap section");
 
             //unit incrementation loop
             for (int i = 0; i < units.size(); i++) {
@@ -127,17 +141,19 @@ public class Player {
         return count;
     }
 
-    public static ArrayList addUnits(VecUnit oldUnit, VecUnit newUnit){
+    public static ArrayList newUnits(VecUnit oldUnit, VecUnit newUnit){
+        //TODO fix this bullshit
         ArrayList<Unit> babbies = new ArrayList<Unit>();
         for (int i = 0; i < newUnit.size(); i++) {
             boolean inList = false;
             for(int j = 0; j < oldUnit.size(); j++){
-                if(newUnit.get(j) == oldUnit.get(i)) {
+                if(newUnit.get(i).id() == oldUnit.get(j).id()) {
                     inList = true;
                 }
             }
             if(!inList){
                 babbies.add(newUnit.get(i));
+                System.out.println("New unit found");
             }
         }
         return babbies;

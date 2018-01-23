@@ -14,21 +14,28 @@ and that should be built into our Tasks enum. - ur buddy andy
 //possible parent class instead of separating robots and structures?
 public class Machine {
 
+    //TODO add jobStatus = false condition for each method. For example, in repair method have an IF statement that checks
+    //TODO whether the target unit is fully healed. If so, jobStatus = false
     GameController gc;
     int id;
     UnitType type; //instead of machine type?
     MapLocation loc;
     long health;
+    TargetStatus jobStatus; //true == currently running Job, false == no job.
+    //make jobStatus into a 3-part enum - working, finished, failed. If failed, put job back in queue.
+    Target currentTarget;
 
-    public Machine(GameController gamec, int unitId, UnitType ty, MapLocation location, long h) {
+    public Machine(GameController gamec, int unitId, UnitType ty, MapLocation location, long h, Target t) {
         gc = gamec;
         id = unitId;
         type = ty;
         loc = location;
         health = h;
+        currentTarget = t;
     }
 
     public void doTarget(Target t) {
+        jobStatus = TargetStatus.WORKING;
         switch(t.getTask()) {
             case MOVE:
                 move(t.getMapLocation());
@@ -77,6 +84,7 @@ public class Machine {
 
     }
     public void randomMove() {
+        boolean hasMoved = false;
         ArrayList<Direction> directions = new ArrayList<>(Arrays.asList(Direction.values()));
         //List<Direction> directions = Arrays.asList(Direction.values());
         while (!directions.isEmpty()) {
@@ -86,6 +94,8 @@ public class Machine {
             if (gc.canMove(id, randomDir) && gc.isMoveReady(id)) {
                 try {
                     gc.moveRobot(id, randomDir);
+                    jobStatus = TargetStatus.FINISHED;
+                    hasMoved = true;
                     //return;
                 } catch (Exception e) {
                     System.out.println("Robot Exception: randomMove");
@@ -96,14 +106,20 @@ public class Machine {
             }
         }
         System.out.print("randomMove Called!");
+        if(hasMoved == false){
+            jobStatus = TargetStatus.FINISHED;
+        }
     }
     public void attack(int target_id) {
         if(gc.canAttack(id, target_id) && gc.isAttackReady(id)) {
             try {
                 gc.attack(id, target_id);
+                jobStatus = TargetStatus.FINISHED;
             } catch (Exception e) {
                 System.out.println("Robot Exception: javelin");
             }
+        }else{
+            jobStatus = TargetStatus.FAILED;
         }
     }
 
@@ -112,24 +128,31 @@ public class Machine {
         if(gc.canHarvest(id, d)) {
             try {
                 gc.harvest(id, d);
+                //return IF statement
             } catch (Exception e) {
                 System.out.println("Robot Exception: harvest");
             }
+        }else{
+            jobStatus = TargetStatus.FAILED;
         }
     }
     public void blueprint(UnitType structure, Direction dir) {
         if(gc.canBlueprint(id, structure, dir)) {
             try {
                 gc.blueprint(id, structure, dir);
+                jobStatus = TargetStatus.FINISHED;
             } catch (Exception e) {
                 System.out.println("Robot Exception: blueprint");
             }
+        }else{
+            jobStatus = TargetStatus.FAILED;
         }
     }
     public void build(int blueprint_id) {
         if(gc.canBuild(id, blueprint_id)) {
             try {
                 gc.build(id, blueprint_id);
+                //return IF statement
             } catch (Exception e) {
                 System.out.println("Robot Exception: build");
             }
@@ -139,19 +162,52 @@ public class Machine {
         if(gc.canRepair(id, structure_id)) {
             try {
                 gc.repair(id, structure_id);
+                //return IF statement
             } catch (Exception e) {
                 System.out.println("Robot Exception: repair");
             }
         }
     }
-    public void replicate(Direction dir) {
-        if(gc.canReplicate(id, dir)) {
-            try {
-                gc.replicate(id, dir);
-            } catch (Exception e) {
-                System.out.println("Robot Exception: replicate");
+    public void replicate(Direction dir) {  //CENTER gives random direction replication
+        if(dir != Direction.Center) {
+            if (gc.canReplicate(id, dir)) {
+                try {
+                    gc.replicate(id, dir);
+                    jobStatus = TargetStatus.FINISHED;
+                } catch (Exception e) {
+                    System.out.println("Robot Exception: replicate");
+                }
+            }else{
+                jobStatus = TargetStatus.FAILED;
+                //System.out.println("reps failed");
+            }
+        }else{
+            boolean hasReplicated = false;
+            ArrayList<Direction> directions = new ArrayList<>(Arrays.asList(Direction.values()));
+            while (!directions.isEmpty()) {
+                Random r = new Random();
+                int dirNum = r.nextInt(directions.size());
+                Direction randomDir = directions.get(dirNum);
+                if (gc.canReplicate(id, randomDir)) {
+                    try {
+                        gc.replicate(id, randomDir);
+                        jobStatus = TargetStatus.FINISHED;
+                        //System.out.println("replicated successfully" + gc.round());
+                        hasReplicated = true;
+                    } catch (Exception e) {
+                        System.out.println("Robot Exception: replicate");
+                    }
+                }
+                else{
+                    directions.remove(dirNum);
+                }
+            }
+            if(!hasReplicated){
+                jobStatus = TargetStatus.FAILED;
+                //System.out.println("reps failed" + gc.round());
             }
         }
+
     }
 
     //knight things
@@ -159,6 +215,7 @@ public class Machine {
         if(gc.canJavelin(id, target_id) && gc.isJavelinReady(id)) {
             try {
                 gc.javelin(id, target_id);
+                jobStatus = TargetStatus.FINISHED;
             } catch (Exception e) {
                 System.out.println("Robot Exception: javelin");
             }
@@ -170,6 +227,7 @@ public class Machine {
         if(gc.canBeginSnipe(id, location) && gc.isBeginSnipeReady(id)) {
             try {
                 gc.beginSnipe(id, location);
+                //return IF statement
             } catch (Exception e) {
                 System.out.println("Robot Exception: snipe");
             }
@@ -181,6 +239,7 @@ public class Machine {
         if(gc.canBlink(id, location) && gc.isBlinkReady(id)) {
             try {
                 gc.blink(id, location);
+                //return IF statement
             } catch (Exception e) {
                 System.out.println("Robot Exception: blink");
             }
@@ -192,6 +251,7 @@ public class Machine {
         if(gc.canHeal(id, target_id) && gc.isHealReady(id)) {
             try {
                 gc.heal(id, target_id);
+                //return IF statement
             } catch (Exception e) {
                 System.out.println("Robot Exception: heal");
             }
@@ -201,10 +261,18 @@ public class Machine {
         if(gc.canOvercharge(id, target_id) && gc.isOverchargeReady(id)) {
             try {
                 gc.overcharge(id, target_id);
+                //jobStatus IF statement
             } catch (Exception e) {
                 System.out.println("Robot Exception: overcharge");
             }
         }
+    }
+
+    public TargetStatus getJobStatus() {
+        return jobStatus;
+    }
+    public Target getCurrentTarget() {
+        return currentTarget;
     }
 
 }
