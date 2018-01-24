@@ -23,6 +23,8 @@ public class Machine {
     long health;
     TargetStatus jobStatus; //true == currently running Job, false == no job.
     //make jobStatus into a 3-part enum - working, finished, failed. If failed, put job back in queue.
+    //needs to be initialized as something, can it be initialized to failed? or should we add a value
+    //for none?
     Target currentTarget;
 
     public Machine(GameController gamec, int unitId, UnitType ty, MapLocation location, long h, Target t) {
@@ -32,6 +34,7 @@ public class Machine {
         loc = location;
         health = h;
         currentTarget = t;
+        jobStatus = TargetStatus.NONE;
     }
 
     public void doTarget(Target t) {
@@ -168,7 +171,7 @@ public class Machine {
             }
         }
     }
-    public void replicate(Direction dir) {  //CENTER gives random direction replication
+    public void replicate(Direction dir) {  //CENTER gives random direction replication //o cool
         if(dir != Direction.Center) {
             if (gc.canReplicate(id, dir)) {
                 try {
@@ -274,5 +277,8 @@ public class Machine {
     public Target getCurrentTarget() {
         return currentTarget;
     }
+
+    public void setJobStatus(TargetStatus status) { jobStatus = status; }
+    public void setCurrentTarget(Target t) { currentTarget = t; }
 
 }

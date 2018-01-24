@@ -1,7 +1,4 @@
 working_dir
-
-
-.idea/
-
-*.iml
-replay.bc18
+replay*
+viewer_latest*
+viewer_currentInstall.json

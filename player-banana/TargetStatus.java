@@ -4,5 +4,7 @@ public enum TargetStatus {
     //done with job
     FINISHED,
     //can't complete job
-    FAILED
+    FAILED,
+    //has not received a job
+    NONE
 }
